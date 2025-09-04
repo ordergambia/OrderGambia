@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Place Order</title>
+</head>
+<body>
+    <h1>Place an Order</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.restaurant.label }} {{ form.restaurant(onchange="this.form.submit()") }}</p>  <!-- Auto-submit on restaurant change -->
+        {% for error in form.restaurant.errors %}<span>{{ error }}</span>{% endfor %}
+        <p>{{ form.menu_item.label }} {{ form.menu_item }}</p>
+        {% for error in form.menu_item.errors %}<span>{{ error }}</span>{% endfor %}
+        <p>{{ form.quantity.label }} {{ form.quantity }}</p>
+        {% for error in form.quantity.errors %}<span>{{ error }}</span>{% endfor %}
+        <p>{{ form.submit }}</p>
+    </form>
+    <p>Note: Select a restaurant to load menu items, then select item and quantity to place order.</p>
+    <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+</body>
+</html>
