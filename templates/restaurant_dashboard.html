@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ restaurant.name }}</h1>
+    <p><a href="{{ url_for('add_menu') }}">Add Menu Item</a></p>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+    <h2>Menu Items</h2>
+    {% if menu_items %}
+        <ul>
+            {% for item in menu_items %}
+                <li>{{ item.name }} - ${{ item.price }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No menu items yet.</p>
+    {% endif %}
+    <h2>Orders</h2>
+    {% if orders %}
+        <ul>
+            {% for order in orders %}
+                <li>Order #{{ order.id }} from {{ order.user.username }} - Item: {{ order.menu_item.name }} x {{ order.quantity }} - Status: {{ order.status }}
+                    <a href="{{ url_for('update_order_status', order_id=order.id, new_status='Accepted') }}">Accept</a> |
+                    <a href="{{ url_for('update_order_status', order_id=order.id, new_status='Completed') }}">Complete</a> |
+                    <a href="{{ url_for('update_order_status', order_id=order.id, new_status='Cancelled') }}">Cancel</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders yet.</p>
+    {% endif %}
+</body>
+</html>
